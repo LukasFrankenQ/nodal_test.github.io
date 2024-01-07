@@ -62,7 +62,7 @@ jobs:
       
       - name: Set up Git config
         run: |
-          git config --global user.name "GitHub Actions"
+          git config --global user.name "LukasFrankenQ"
           git config --global user.email "lukas.franken@ed.ac.uk"
 
       - name: Commit and push environment
