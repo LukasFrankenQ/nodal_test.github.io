@@ -74,7 +74,7 @@ jobs:
       # - name: Update environment
       #   run: mamba env update -n pypsa-eur -f envs/environment.yaml
       #   if: steps.cache.outputs.cache-hit != 'true'
-      
+
       - name: Print environment
         run: conda list --explicit > actions_environment.txt
       
@@ -84,8 +84,8 @@ jobs:
       - name: Show currently available envs
         run: conda env list
       
-      # - name: Activate environment
-      #   run: conda activate pypsa-eur
+      - name: Activate environment
+        run: micromamba activate pypsa-eur
 
       - name: Run Python script
         run:
