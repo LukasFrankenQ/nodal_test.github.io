@@ -55,9 +55,9 @@ jobs:
           cache-environment: true
           cache-downloads: true
       
-    - name: Set cache dates
-      run: |
-        echo "WEEK=$(date +'%Y%U')" >> $GITHUB_ENV
+      - name: Set cache dates
+        run: |
+          echo "WEEK=$(date +'%Y%U')" >> $GITHUB_ENV
       
       # - name: Set cache date
       #   run: echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
