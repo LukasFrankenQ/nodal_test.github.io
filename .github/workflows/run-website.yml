@@ -57,8 +57,12 @@ jobs:
         run: mamba env update -n pypsa-eur -f envs/environment.yaml
         if: steps.cache.outputs.cache-hit != 'true'
       
-      - name: print environment
+      - name: Print environment
         run: conda list --explicit > actions_environment.txt
+      
+      - name: Run Python script
+        run:
+          python scripts/solve_network.py
       
       - name: Set up Git config
         run: |
@@ -67,6 +71,6 @@ jobs:
 
       - name: Commit and push environment
         run: |
-          git add actions_environment.txt
-          git commit -m "Update actions_environment.txt"
+          git add .
+          git commit -m "Update actions_environment.txt and random.csv" -a || echo "No changes to commit"
           git push git@github.com:${{ github.repository }}.git HEAD:main
