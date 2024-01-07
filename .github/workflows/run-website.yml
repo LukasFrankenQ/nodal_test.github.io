@@ -36,18 +36,30 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     
-      - name: Setup Mambaforge
-        uses: conda-incubator/setup-miniconda@v2
+
+      # - name: Setup Mambaforge
+      #   uses: conda-incubator/setup-miniconda@v2
+      #   with:
+      #       miniforge-variant: Mambaforge
+      #       miniforge-version: latest
+      #       activate-environment: pypsa-eur
+      #       use-mamba: true
+      
+      - name: Setup Micromamba
+        uses: mamba-org/setup-micromamba@v1
         with:
-            miniforge-variant: Mambaforge
-            miniforge-version: latest
-            activate-environment: pypsa-eur
-            use-mamba: true
+          micromamba-version: latest
+          environment-file: envs/environment.yaml
+          log-level: debug
+          init-shell: bash
+          cache-environment: true
+          cache-downloads: true
       
       - name: Set cache date
         run: echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
       
-      - uses: actions/cache@v3
+      - name: Set cache number
+        uses: actions/cache@v3
         with:
           path: /envs/
           key: ubuntu-conda-${{ hashFiles('envs/environment.yaml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
