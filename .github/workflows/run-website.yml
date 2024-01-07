@@ -60,6 +60,12 @@ jobs:
       - name: Print environment
         run: conda list --explicit > actions_environment.txt
       
+      - name: Show current env
+        run: conda list
+      
+      - name: Show currently available envs
+        run: conda env list
+      
       - name: Run Python script
         run:
           python scripts/solve_network.py
