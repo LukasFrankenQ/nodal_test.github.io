@@ -69,4 +69,4 @@ jobs:
         run: |
           git add actions_environment.txt
           git commit -m "Update actions_environment.txt"
-          git push
+          git push git@github.com:${{ github.repository }}.git HEAD:main
