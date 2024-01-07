@@ -49,5 +49,5 @@ jobs:
         id: cache
       
       - name: Update environment
-        run: mama env update -n pypsa-eur -f envs/environment.yaml
+        run: mamba env update -n pypsa-eur -f envs/environment.yaml
         if: steps.cache.outputs.cache-hit != 'true'
