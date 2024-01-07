@@ -24,6 +24,8 @@ jobs:
   build:
     runs-on: ubuntu-latest 
     name: Full Pipeline
+    strategy:
+      max-parallel: 1
     
     steps:
       - name: Checkout
@@ -87,6 +89,8 @@ jobs:
 
       - name: Run Python script
         run:
+          conda info --envs
+          
           python scripts/solve_network.py
       
       - name: Set up Git config
