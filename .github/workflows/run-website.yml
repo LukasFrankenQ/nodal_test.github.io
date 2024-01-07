@@ -23,7 +23,7 @@ jobs:
   
   build:
     runs-on: ubuntu-latest 
-    name: Setup Mambaforge
+    name: Full Pipeline
     
     steps:
       - name: Checkout
@@ -55,19 +55,23 @@ jobs:
           cache-environment: true
           cache-downloads: true
       
-      - name: Set cache date
-        run: echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+    - name: Set cache dates
+      run: |
+        echo "WEEK=$(date +'%Y%U')" >> $GITHUB_ENV
       
-      - name: Set cache number
-        uses: actions/cache@v3
-        with:
-          path: /envs/
-          key: ubuntu-conda-${{ hashFiles('envs/environment.yaml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
-        id: cache
+      # - name: Set cache date
+      #   run: echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+      #
+      #- name: Set cache number
+      #  uses: actions/cache@v3
+      #   with:
+      #     path: /envs/
+      #    key: ubuntu-conda-${{ hashFiles('envs/environment.yaml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+      #  id: cache
       
-      - name: Update environment
-        run: mamba env update -n pypsa-eur -f envs/environment.yaml
-        if: steps.cache.outputs.cache-hit != 'true'
+      # - name: Update environment
+      #   run: mamba env update -n pypsa-eur -f envs/environment.yaml
+      #   if: steps.cache.outputs.cache-hit != 'true'
       
       - name: Print environment
         run: conda list --explicit > actions_environment.txt
@@ -78,8 +82,8 @@ jobs:
       - name: Show currently available envs
         run: conda env list
       
-      - name: Activate environment
-        run: conda activate pypsa-eur
+      # - name: Activate environment
+      #   run: conda activate pypsa-eur
 
       - name: Run Python script
         run:
