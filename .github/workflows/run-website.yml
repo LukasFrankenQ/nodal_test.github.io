@@ -66,6 +66,9 @@ jobs:
       - name: Show currently available envs
         run: conda env list
       
+      - name: Activate environment
+        run: conda activate pypsa-eur
+
       - name: Run Python script
         run:
           python scripts/solve_network.py
