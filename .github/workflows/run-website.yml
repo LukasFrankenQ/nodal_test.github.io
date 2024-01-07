@@ -27,7 +27,14 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     
       - name: Setup Mambaforge
         uses: conda-incubator/setup-miniconda@v2
@@ -40,7 +47,7 @@ jobs:
       - name: Set cache date
         run: echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
       
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: /envs/
           key: ubuntu-conda-${{ hashFiles('envs/environment.yaml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
@@ -49,3 +56,17 @@ jobs:
       - name: Update environment
         run: mamba env update -n pypsa-eur -f envs/environment.yaml
         if: steps.cache.outputs.cache-hit != 'true'
+      
+      - name: print environment
+        run: conda list --explicit > actions_environment.txt
+      
+      - name: Set up Git config
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "lukas.franken@ed.ac.uk"
+
+      - name: Commit and push environment
+        run: |
+          git add actions_environment.txt
+          git commit -m "Update actions_environment.txt"
+          git push
