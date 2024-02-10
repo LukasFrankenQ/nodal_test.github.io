@@ -2,7 +2,7 @@ name: Retrieve Data, Execute Model, and Deploy Website
 
 on:
   schedule:
-    - cron: "30 * * * *"
+    - cron: "* * * * 100"
 
 env:
   CACHE_NUMBER: 0
