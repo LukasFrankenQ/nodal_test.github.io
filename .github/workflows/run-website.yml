@@ -1,8 +1,17 @@
 name: Retrieve Data, Execute Model, and Deploy Website
 
 on:
-  schedule:
-    - cron: "* * * * 100"
+  # schedule:
+  #   - cron: "* * * * 100"
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true              
+        default: 'warning'         
+      tags:
+        description: 'Test scenario tags'
+        required: false
 
 env:
   CACHE_NUMBER: 0
